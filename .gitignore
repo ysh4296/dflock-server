@@ -1,0 +1,55 @@
+# ========================
+# OS별 임시 파일들
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# IDE 관련 파일/폴더
+# ========================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# ========================
+# 빌드 산출물 및 캐시
+# ========================
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# ========================
+# 로그 파일
+# ========================
+*.log
+
+# ========================
+# 패키징 결과물
+# ========================
+*.jar
+*.war
+*.ear
+
+# ========================
+# 기타 임시 파일들
+# ========================
+/tmp/
+*.tmp
