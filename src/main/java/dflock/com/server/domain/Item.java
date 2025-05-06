@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class Item {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     private String name;
