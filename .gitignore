@@ -17,6 +17,7 @@ out/
 .project
 .classpath
 .settings/
+.env*
 
 # VS Code
 .vscode/
