@@ -11,7 +11,7 @@ import lombok.*;
 public class Item {
 
     @Id
-    private Long id;
+    private String id;
 
     private String name;
 

@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ItemPostRequest {
+public class ItemPostBody {
     @Schema(description = "아이템 id", example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "아이템 이름", example = "Magic Box")
     private String name;

@@ -1,7 +1,7 @@
 package dflock.com.server.controller;
 
 import dflock.com.server.domain.Item;
-import dflock.com.server.dto.ItemPostRequest;
+import dflock.com.server.dto.ItemPostBody;
 import dflock.com.server.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +26,12 @@ public class ItemController {
 
     @PostMapping
     @Operation(summary = "아이템 생성")
-    public Item createItem(@RequestBody ItemPostRequest request) {
+    public Item createItem(@RequestBody ItemPostBody body) {
         Item item = Item.builder()
-                .id(request.getId())
-                .name(request.getName())
-                .quantity(request.getQuantity())
-                .probability(request.getProbability())
+                .id(body.getId())
+                .name(body.getName())
+                .quantity(body.getQuantity())
+                .probability(body.getProbability())
                 .build();
         return service.save(item);
     }
