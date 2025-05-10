@@ -1,6 +1,6 @@
 package dflock.com.server.service;
-import dflock.com.server.domain.Item;
-import dflock.com.server.repository.ItemRepository;
+import dflock.com.server.domain.FirstItem;
+import dflock.com.server.repository.FirstItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,17 +8,17 @@ import java.util.List;
 @Service
 public class ItemService {
 
-    private final ItemRepository repo;
+    private final FirstItemRepository repo;
 
-    public ItemService(ItemRepository repo) {
+    public ItemService(FirstItemRepository repo) {
         this.repo = repo;
     }
 
-    public List<Item> findAll() {
+    public List<FirstItem> findAll() {
         return repo.findAll();
     }
 
-    public Item save(Item item) {
+    public FirstItem save(FirstItem item) {
         return repo.save(item);
     }
 }
