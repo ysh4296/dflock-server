@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 public class ItemPostBody {
     @Schema(description = "아이템 id", example = "1")
-    private String id;
+    private Long id;
 
     @Schema(description = "아이템 이름", example = "Magic Box")
     private String name;
@@ -17,5 +17,5 @@ public class ItemPostBody {
     private int quantity;
 
     @Schema(description = "드랍 확률 (0.0 ~ 1.0)", example = "0.15")
-    private double probability;
+    private String probability;
 }

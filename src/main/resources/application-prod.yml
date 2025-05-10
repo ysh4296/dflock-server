@@ -10,8 +10,9 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: false
+      # 시작할때마다 초기화
+      ddl-auto: create-drop
+    show-sql: true
     properties:
       hibernate:
         format_sql: true

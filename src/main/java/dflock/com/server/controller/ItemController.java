@@ -1,6 +1,6 @@
 package dflock.com.server.controller;
 
-import dflock.com.server.domain.Item;
+import dflock.com.server.domain.FirstItem;
 import dflock.com.server.dto.ItemPostBody;
 import dflock.com.server.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,14 +20,14 @@ public class ItemController {
 
     @GetMapping
     @Operation(summary = "아이템 조회")
-    public List<Item> getItems() {
+    public List<FirstItem> getItems() {
         return service.findAll();
     }
 
     @PostMapping
     @Operation(summary = "아이템 생성")
-    public Item createItem(@RequestBody ItemPostBody body) {
-        Item item = Item.builder()
+    public FirstItem createItem(@RequestBody ItemPostBody body) {
+        FirstItem item = (FirstItem) FirstItem.builder()
                 .id(body.getId())
                 .name(body.getName())
                 .quantity(body.getQuantity())

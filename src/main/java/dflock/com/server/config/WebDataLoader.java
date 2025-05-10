@@ -72,19 +72,19 @@ public class WebDataLoader {
                 if (cols.size() % 3 == 0 && cols.size() >= 3) {
                     // 첫 번째 아이템
                     FirstItem firstItem = new FirstItem();
-                    firstItem.setItemName(cols.get(0).text());
+                    firstItem.setName(cols.get(0).text());
                     firstItem.setQuantity(Integer.parseInt(cols.get(1).text()));
                     firstItem.setProbability(cols.get(2).text());
                     firstItemList.add(firstItem);
-                    uniqueItemNames.add(firstItem.getItemName());
+                    uniqueItemNames.add(firstItem.getName());
                     if (cols.size() >= 6) {
                         // 두 번째 아이템
                         SecondItem secondItem = new SecondItem();
-                        secondItem.setItemName(cols.get(3).text());
+                        secondItem.setName(cols.get(3).text());
                         secondItem.setQuantity(Integer.parseInt(cols.get(4).text()));
                         secondItem.setProbability(cols.get(5).text());
                         secondItemList.add(secondItem);
-                        uniqueItemNames.add(secondItem.getItemName());
+                        uniqueItemNames.add(secondItem.getName());
                     }
                 }
             }

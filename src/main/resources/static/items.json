@@ -1,5 +1,0 @@
-[
-  { "name": "Potion", "quantity": 5, "probability": 0.4 },
-  { "name": "Sword", "quantity": 2, "probability": 0.1 },
-  { "name": "Shield", "quantity": 3, "probability": 0.2 }
-]

@@ -17,7 +17,7 @@ public class SecondItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String itemName;
+    private String name;
     private int quantity;
     private String probability;
 
