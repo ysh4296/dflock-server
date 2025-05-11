@@ -1,7 +1,7 @@
 package dflock.com.server.controller;
 
-import dflock.com.server.domain.FirstItem;
-import dflock.com.server.dto.ItemPostBody;
+import dflock.com.server.domain.ItemMetadata;
+import dflock.com.server.dto.ItemResponse;
 import dflock.com.server.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +20,14 @@ public class ItemController {
     }
 
     @GetMapping
-    @Operation(summary = "아이템 조회")
-    public List<FirstItem> getItems() {
+    @Operation(summary = "모든 아이템 조회")
+    public ItemResponse getItems() {
         return service.findAll();
     }
 
-    @PostMapping
-    @Operation(summary = "아이템 생성")
-    public FirstItem createItem(@RequestBody ItemPostBody body) {
-        FirstItem item = (FirstItem) FirstItem.builder()
-                .id(body.getId())
-                .name(body.getName())
-                .quantity(body.getQuantity())
-                .probability(body.getProbability())
-                .build();
-        return service.save(item);
+    @GetMapping("/metadata")
+    @Operation(summary = "모든 아이템 메타데이터 조회")
+    public List<ItemMetadata> getItemMetadata() {
+        return service.findAllMetadata();
     }
 }
