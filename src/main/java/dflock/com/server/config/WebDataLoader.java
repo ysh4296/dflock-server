@@ -1,11 +1,7 @@
 package dflock.com.server.config;
 
-import dflock.com.server.domain.FirstItem;
-import dflock.com.server.domain.ItemMetadata;
-import dflock.com.server.domain.SecondItem;
-import dflock.com.server.repository.FirstItemRepository;
-import dflock.com.server.repository.ItemMetadataRepository;
-import dflock.com.server.repository.SecondItemRepository;
+import dflock.com.server.domain.*;
+import dflock.com.server.repository.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.jsoup.Jsoup;
@@ -32,12 +28,21 @@ public class WebDataLoader {
     private SecondItemRepository secondItemRepository;
 
     @Autowired
+    private MileageFirstItemRepository mileageFirstItemRepository;
+
+    @Autowired
+    private MileageSecondItemRepository mileageSecondItemRepository;
+
+    @Autowired
     private ItemMetadataRepository itemMetadataRepository;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${ITEM_DATA_URL}")
     private String itemDataUrl;
+
+    @Value("${MILEAGE_ITEM_DATA_URL}")
+    private String mileageItemDataUrl;
 
     @Value("${OPEN_API_URL}")
     private String openApiUrl;
@@ -52,10 +57,14 @@ public class WebDataLoader {
             // 웹페이지 가져오기
             String html = restTemplate.getForObject(itemDataUrl, String.class);
             Document doc = Jsoup.parse(html);
+            String mileageHtml = restTemplate.getForObject(mileageItemDataUrl, String.class);
+            Document mileageDoc = Jsoup.parse(mileageHtml);
 
             // 데이터 저장 리스트
             List<FirstItem> firstItemList = new ArrayList<>();
             List<SecondItem> secondItemList = new ArrayList<>();
+            List<MileageFirstItem> mileageFirstItemList = new ArrayList<>();
+            List<MileageSecondItem> mileageSecondItemList = new ArrayList<>();
             List<ItemMetadata> itemMetadataList = new ArrayList<>();
 
             firstItemRepository.deleteAll();
@@ -70,21 +79,55 @@ public class WebDataLoader {
                 if(row.hasClass("row0") || row.hasClass("row1")) continue;
                 Elements cols = row.select("td");
                 if (cols.size() % 3 == 0 && cols.size() >= 3) {
+
+                    String probability = cols.get(2).text();
                     // 첫 번째 아이템
                     FirstItem firstItem = new FirstItem();
                     firstItem.setName(cols.get(0).text());
                     firstItem.setQuantity(Integer.parseInt(cols.get(1).text()));
-                    firstItem.setProbability(cols.get(2).text());
+                    firstItem.setProbability(Double.parseDouble(probability.substring(0,probability.length()-1)));
                     firstItemList.add(firstItem);
                     uniqueItemNames.add(firstItem.getName());
                     if (cols.size() >= 6) {
                         // 두 번째 아이템
+                        probability = cols.get(5).text();
                         SecondItem secondItem = new SecondItem();
                         secondItem.setName(cols.get(3).text());
                         secondItem.setQuantity(Integer.parseInt(cols.get(4).text()));
-                        secondItem.setProbability(cols.get(5).text());
+                        secondItem.setProbability(Double.parseDouble(probability.substring(0,probability.length()-1)));
                         secondItemList.add(secondItem);
                         uniqueItemNames.add(secondItem.getName());
+                    }
+                }
+            }
+            Elements mileageRows = mileageDoc.select("tr");
+
+            for (Element row : mileageRows) {
+                if (row.hasClass("row0") || row.hasClass("row1")) continue;
+                Elements cols = row.select("td");
+                if (cols.size() >= 3 && cols.size() % 3 == 0) {
+                    // 필요한 데이터 추출
+                    String itemName = cols.get(0).text();
+                    int quantity = Integer.parseInt(cols.get(1).text());
+                    String probability = cols.get(2).text();
+
+                    // 예시로 FirstItem 객체에 저장
+                    MileageFirstItem mileageFirstItem = new MileageFirstItem();
+                    mileageFirstItem.setName(itemName);
+                    mileageFirstItem.setQuantity(quantity);
+                    mileageFirstItem.setProbability(Double.parseDouble(probability.substring(0,probability.length()-1)));
+                    mileageFirstItemList.add(mileageFirstItem);
+                    uniqueItemNames.add(itemName);
+
+                    if (cols.size() >= 6) {
+                        // 두 번째 아이템
+                        probability = cols.get(5).text();
+                        MileageSecondItem mileageSecondItem = new MileageSecondItem();
+                        mileageSecondItem.setName(cols.get(3).text());
+                        mileageSecondItem.setQuantity(Integer.parseInt(cols.get(4).text()));
+                        mileageSecondItem.setProbability(Double.parseDouble(probability.substring(0,probability.length()-1)));
+                        mileageSecondItemList.add(mileageSecondItem);
+                        uniqueItemNames.add(mileageSecondItem.getName());
                     }
                 }
             }
@@ -92,6 +135,8 @@ public class WebDataLoader {
             // 데이터베이스에 저장
             firstItemRepository.saveAll(firstItemList);
             secondItemRepository.saveAll(secondItemList);
+            mileageFirstItemRepository.saveAll(mileageFirstItemList);
+            mileageSecondItemRepository.saveAll(mileageSecondItemList);
             loadItemMetaData(uniqueItemNames,itemMetadataList);
             updatePriceMetaData();
             itemMetadataRepository.saveAll(itemMetadataList);
