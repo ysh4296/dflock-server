@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FirstItem {
+public class MileageFirstItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
