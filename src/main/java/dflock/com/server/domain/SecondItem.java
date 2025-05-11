@@ -19,7 +19,7 @@ public class SecondItem {
 
     private String name;
     private int quantity;
-    private String probability;
+    private double probability;
 
     // Getters and setters
 }

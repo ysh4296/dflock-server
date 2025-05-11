@@ -17,5 +17,5 @@ public class ItemPostBody {
     private int quantity;
 
     @Schema(description = "드랍 확률 (0.0 ~ 1.0)", example = "0.15")
-    private String probability;
+    private double probability;
 }
