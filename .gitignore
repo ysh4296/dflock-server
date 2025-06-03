@@ -34,7 +34,7 @@ pom.xml.next
 release.properties
 
 # Gradle
-.gradle/
+#.gradle/
 
 # ========================
 # 로그 파일
